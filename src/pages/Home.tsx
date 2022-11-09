@@ -4,22 +4,29 @@ import { styled } from "stitches.config";
 import { useQuery } from "@tanstack/react-query";
 import { CatgoryEntities } from "domain/category/entitites/category.entities";
 import { getCatgeoryList } from "domain/category/services/category.service";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import {
+  createSearchParams,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useCategoryStates } from "domain/category/states/category.states";
 import { getBookList } from "domain/books/services/book.service";
 import { Book } from "domain/books/entities/books.entities";
+import { useEffect } from "react";
+import BookCard from "components/BookCard/BookCard";
 
 const PageWrapper = styled("div", {
   padding: "$24",
 });
-const CategiryListWrapper = styled("section", {
+const ListWrapper = styled("section", {
   display: "grid",
-  my: "$16",
+  my: "$24",
   gap: "$16",
 });
 
 const Home = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const categoryState = useCategoryStates((state) => state);
 
   const { data: categories } = useQuery<CatgoryEntities[], Error>(
@@ -48,12 +55,25 @@ const Home = () => {
       }).toString(),
     });
   };
+
+  useEffect(() => {
+    const categoryId = Number(searchParams.get("categoryId"));
+    if (
+      typeof categoryId !== "undefined" &&
+      categoryId !== null &&
+      !isNaN(categoryId)
+    ) {
+      categoryState.setCategoryId(categoryId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <PageWrapper>
       <Typography variant="hero" weight="bold">
         Explore
       </Typography>
-      <CategiryListWrapper
+      <ListWrapper
         css={{
           equallyGridColumn: 2,
           "@bp1": { equallyGridColumn: categories.length },
@@ -66,10 +86,19 @@ const Home = () => {
             onClick={() => onNavigateParams(id)}
           />
         ))}
-      </CategiryListWrapper>
-      {books.map((item) => (
-        <div key={item.id}>{item.title}</div>
-      ))}
+      </ListWrapper>
+
+      <ListWrapper
+        css={{
+          equallyGridColumn: 2,
+          "@bp1": { equallyGridColumn: 3 },
+          "@bp2": { equallyGridColumn: books.length / 2 },
+        }}
+      >
+        {books.map((item) => (
+          <BookCard key={item.id} {...item} />
+        ))}
+      </ListWrapper>
     </PageWrapper>
   );
 };

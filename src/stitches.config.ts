@@ -71,12 +71,14 @@ export const { styled, css, createTheme, keyframes, globalCss, getCssText } =
     },
     media: {
       bp1: "(min-width: 768px)",
-      bp2: "(min-width: 1440px)",
+      bp2: "(min-width: 1200px)",
     },
     theme: {
       colors: {
         primary: "hsl(266, 84%, 46%)",
         neutral: "hsl(0, 0%, 89%)",
+        neutral_grey: "hsl(0, 0%, 70%)",
+        neutral_dark: "hsl(0, 1%, 29%)",
       },
       space: spaces,
     },
