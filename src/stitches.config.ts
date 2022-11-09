@@ -61,7 +61,9 @@ export const { styled, css, createTheme, keyframes, globalCss, getCssText } =
         display: "grid",
         gridTemplateRows: `repeat(${row}, minmax(0, 1fr))`,
       }),
-
+      remFont: (pixel: number) => ({
+        fontSize: calcSpaces(pixel),
+      }),
       size: (value: number | string) => ({
         width: value,
         height: value,
@@ -73,7 +75,8 @@ export const { styled, css, createTheme, keyframes, globalCss, getCssText } =
     },
     theme: {
       colors: {
-        primary: "hsl(219, 84%, 59%)",
+        primary: "hsl(266, 84%, 46%)",
+        neutral: "hsl(0, 0%, 89%)",
       },
       space: spaces,
     },

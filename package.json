@@ -2,7 +2,7 @@
   "name": "books-store",
   "version": "0.1.0",
   "private": true,
-  "proxy": "asia-southeast2-sejutacita-app.cloudfunctions.net",
+  "proxy": "https://asia-southeast2-sejutacita-app.cloudfunctions.net/",
   "dependencies": {
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.14.5",

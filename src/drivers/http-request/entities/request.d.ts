@@ -12,8 +12,8 @@ export interface GetRequest<T = {}> {
   config?: AxiosRequestConfig;
 }
 
-export interface Hooks<T, K> {
+export interface Hooks<T> {
   params?: T;
   queryId: string;
-  queryOptions?: K;
+  onSuccess: (data: any) => void;
 }
