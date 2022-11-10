@@ -2,6 +2,8 @@
   "name": "books-store",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
+  "proxy": "https://asia-southeast2-sejutacita-app.cloudfunctions.net/",
   "dependencies": {
     "@radix-ui/react-accordion": "^1.0.1",
     "@stitches/react": "^1.2.8",
