@@ -13,6 +13,7 @@ export default class RequestServices {
 
     this.reqClient = axios.create({
       headers: requestHeader,
+      baseURL: "https://asia-southeast2-sejutacita-app.cloudfunctions.net/",
     });
 
     this.reqClient.interceptors.response.use(
