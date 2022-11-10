@@ -4,13 +4,12 @@ import { styled } from "stitches.config";
 type RootLayoutProps = { children: ReactNode };
 
 const Wrapper = styled("div", {
-  padding: "0",
   flexing: "column",
   justifyContent: "flex-start",
   minHeight: "100vh",
+  padding: "$54 0",
   "@bp1": {
     maxWidth: "90rem",
-    padding: "$64 0",
     margin: "0 auto",
   },
 });

@@ -1,6 +1,6 @@
 import { createStitches } from "@stitches/react";
 
-const spacingSet = [0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 64] as const;
+const spacingSet = [0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 54, 64] as const;
 
 export function calcSpaces(spaces: number) {
   return `${spaces / 16}rem`;
@@ -61,7 +61,9 @@ export const { styled, css, createTheme, keyframes, globalCss, getCssText } =
         display: "grid",
         gridTemplateRows: `repeat(${row}, minmax(0, 1fr))`,
       }),
-
+      remFont: (pixel: number) => ({
+        fontSize: calcSpaces(pixel),
+      }),
       size: (value: number | string) => ({
         width: value,
         height: value,
@@ -69,11 +71,16 @@ export const { styled, css, createTheme, keyframes, globalCss, getCssText } =
     },
     media: {
       bp1: "(min-width: 768px)",
-      bp2: "(min-width: 1440px)",
+      bp2: "(min-width: 1200px)",
     },
     theme: {
       colors: {
-        primary: "hsl(219, 84%, 59%)",
+        primary: "hsl(266, 84%, 46%)",
+        star: "hsl(37, 100%, 65%)",
+        neutral: "hsl(0, 0%, 89%)",
+        neutral_light_grey: "hsl(0, 0%, 80%)",
+        neutral_grey: "hsl(0, 0%, 70%)",
+        neutral_dark: "hsl(0, 1%, 29%)",
       },
       space: spaces,
     },

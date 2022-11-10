@@ -2,8 +2,9 @@
   "name": "books-store",
   "version": "0.1.0",
   "private": true,
-  "proxy": "asia-southeast2-sejutacita-app.cloudfunctions.net",
+  "proxy": "https://asia-southeast2-sejutacita-app.cloudfunctions.net/",
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.0.1",
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.14.5",
     "@testing-library/jest-dom": "^5.16.5",
@@ -17,6 +18,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
+    "react-icons": "^4.6.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.1",
