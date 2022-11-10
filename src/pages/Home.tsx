@@ -10,11 +10,12 @@ import { useSearchParams } from "react-router-dom";
 import { useCategoryStates } from "domain/category/states/category.states";
 import { getBookList } from "domain/books/services/book.service";
 import { Book } from "domain/books/entities/books.entities";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   useBookParamState,
   useBookStates,
 } from "domain/books/states/books.states";
+import SearchInput from "components/SearchInput/SearchInput";
 
 const PageWrapper = styled("div", {
   padding: "$24",
@@ -35,6 +36,7 @@ const PAGE_LIMIT = 10;
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchInput, setSearchInput] = useState("");
   const paramsState = useBookParamState((state) => state);
   const categoryState = useCategoryStates((state) => state);
   const booksState = useBookStates((state) => state);
@@ -47,14 +49,19 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { data: categories } = useQuery<CatgoryEntities[], Error>(
-    ["useCategoryList"],
-    getCatgeoryList,
-    {
-      initialData: [],
-    }
-  );
-  const { data: books } = useQuery<Book[], Error>(
+  const { data: categories, isFetching: isFetchingCategories } = useQuery<
+    CatgoryEntities[],
+    Error
+  >(["useCategoryList"], getCatgeoryList, {
+    initialData: [],
+    onSuccess(data) {
+      const categoryId = searchParams.get("categoryId");
+      if (!categoryId) {
+        onNavigateParams(data[0].id);
+      }
+    },
+  });
+  const { data: books, isFetching } = useQuery<Book[], Error>(
     ["useBookList", categoryState.categoryId, paramsState.page],
     async () =>
       getBookList({
@@ -64,6 +71,18 @@ const Home = () => {
     {
       initialData: [],
       enabled: !!categoryState.categoryId,
+      select(data) {
+        const filteredData = data.filter((value) => {
+          const searchStr = searchInput.toLowerCase();
+          const titleMatches = value.title.toLowerCase().includes(searchStr);
+          const authorMatches = value.authors.some((item) =>
+            item.toLowerCase().includes(searchStr)
+          );
+
+          return titleMatches || authorMatches;
+        });
+        return filteredData;
+      },
     }
   );
 
@@ -151,12 +170,22 @@ const Home = () => {
           />
         ))}
       </ListWrapper>
-
+      <SearchInput
+        disabled={isFetching || isFetchingCategories}
+        onChangeEnter={setSearchInput}
+        placeholder="Filter Books by Title and Author Name"
+        wrapperCss={{
+          width: "auto",
+          "@bp1": {
+            width: "50%",
+          },
+        }}
+      />
       <ListWrapper
         css={{
           equallyGridColumn: 2,
           "@bp1": { equallyGridColumn: 3 },
-          "@bp2": { equallyGridColumn: books.length / 2 },
+          "@bp2": { equallyGridColumn: 4 },
         }}
       >
         {books.map((item) => (
