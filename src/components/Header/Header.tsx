@@ -1,5 +1,5 @@
 import React from "react";
-import { IoMdArrowBack } from "react-icons/io";
+import { IoMdArrowBack, IoMdSearch } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { styled } from "stitches.config";
 
@@ -10,6 +10,12 @@ const HeaderWrapper = styled("header", {
   left: 0,
   right: 0,
   zIndex: 99,
+});
+
+const SpaceBetween = styled("div", {
+  flexing: "row-center",
+  justifyContent: "space-between",
+  width: "inherit",
 });
 
 const HeaderOuter = styled("section", {
@@ -31,12 +37,15 @@ const HeaderOuter = styled("section", {
 });
 
 const HeaderInner = styled("div", {
-  maxWidth: 1440,
-  flexing: "row",
+  display: "flex",
+  flexDirection: "row",
   alignItems: "center",
-  margin: "0 auto",
-  size: "100%",
+  margin: "0px auto",
+  width: "-webkit-fill-available",
+  height: "100%",
   padding: "$24",
+  position: "relative",
+  maxWidth: "1440px",
   variants: {
     usingBackButton: {
       true: {
@@ -73,9 +82,16 @@ export const Header = ({
                 {title}
               </span>
             ) : (
-              <Link to="/">
-                <h1>Book Store</h1>
-              </Link>
+              <>
+                <SpaceBetween>
+                  <Link to="/">
+                    <h1>Book Store</h1>
+                  </Link>
+                  <Link to="/search">
+                    <IoMdSearch size={20} />
+                  </Link>
+                </SpaceBetween>
+              </>
             )}
           </HeaderInner>
         </HeaderOuter>

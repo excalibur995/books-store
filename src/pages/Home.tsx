@@ -1,12 +1,15 @@
 import CategoryCard from "components/CategoryCard";
 import Typography from "components/Typography";
-import BookCard from "components/BookCard/BookCard";
 import Pagination from "components/Pagination/Pagination";
+import SearchInput from "components/SearchInput/SearchInput";
+import Header from "components/Header";
+import BookList from "components/List/BookList";
+
 import { styled } from "stitches.config";
 import { useQuery } from "@tanstack/react-query";
 import { CatgoryEntities } from "domain/category/entitites/category.entities";
 import { getCatgeoryList } from "domain/category/services/category.service";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useCategoryStates } from "domain/category/states/category.states";
 import { getBookList } from "domain/books/services/book.service";
 import { Book } from "domain/books/entities/books.entities";
@@ -15,7 +18,8 @@ import {
   useBookParamState,
   useBookStates,
 } from "domain/books/states/books.states";
-import SearchInput from "components/SearchInput/SearchInput";
+import BookmarkList from "components/List/BookmarkList";
+import { seacrhBookFilter } from "shared/utils";
 
 const PageWrapper = styled("div", {
   padding: "$24",
@@ -71,18 +75,7 @@ const Home = () => {
     {
       initialData: [],
       enabled: !!categoryState.categoryId,
-      select(data) {
-        const filteredData = data.filter((value) => {
-          const searchStr = searchInput.toLowerCase();
-          const titleMatches = value.title.toLowerCase().includes(searchStr);
-          const authorMatches = value.authors.some((item) =>
-            item.toLowerCase().includes(searchStr)
-          );
-
-          return titleMatches || authorMatches;
-        });
-        return filteredData;
-      },
+      select: (data) => seacrhBookFilter(searchInput, data),
     }
   );
 
@@ -120,95 +113,68 @@ const Home = () => {
   }, []);
 
   return (
-    <PageWrapper>
-      {booksState.bookmarkedBook.length > 0 && (
-        <>
-          <BookmarkTitleWrapper>
-            <Typography variant="hero" weight="bold">
-              Bookmarks
-            </Typography>
-            <Typography css={{ color: "$primary" }} weight="semibold">
-              See All
-            </Typography>
-          </BookmarkTitleWrapper>
-          <ListWrapper
-            css={{
-              flexing: "row",
-              overflow: "scroll hidden",
-              whiteSpace: "nowrap",
-              msOverflowStyle: "none",
-              scrollbarWidth: "none",
-              "&::-webkit-scrollbar": { display: "none" },
-              figure: { minWidth: 200, "@bp1": { minWidth: "unset" } },
-            }}
-          >
-            {booksState.bookmarkedBook.slice(0, 4).map((item) => (
-              <a href="/detail" key={item.id}>
-                <BookCard
-                  onClick={() => booksState.setBookDetail!(item)}
-                  {...item}
-                />
-              </a>
-            ))}
-          </ListWrapper>
-        </>
-      )}
-      <Typography variant="hero" weight="bold">
-        Explore
-      </Typography>
-      <ListWrapper
-        css={{
-          equallyGridColumn: 2,
-          "@bp1": { equallyGridColumn: categories.length },
-        }}
-      >
-        {categories.map(({ name, id }) => (
-          <CategoryCard
-            name={name}
-            key={id}
-            onClick={() => onNavigateParams(id)}
-          />
-        ))}
-      </ListWrapper>
-      <SearchInput
-        disabled={isFetching || isFetchingCategories}
-        onChangeEnter={setSearchInput}
-        placeholder="Filter Books by Title and Author Name"
-        wrapperCss={{
-          width: "auto",
-          "@bp1": {
-            width: "50%",
-          },
-        }}
-      />
-      <ListWrapper
-        css={{
-          equallyGridColumn: 2,
-          "@bp1": { equallyGridColumn: 3 },
-          "@bp2": { equallyGridColumn: 4 },
-        }}
-      >
-        {books.map((item) => (
-          <a href="/detail" key={item.id}>
-            <BookCard
-              onClick={() => booksState.setBookDetail!(item)}
-              {...item}
+    <Header>
+      <PageWrapper>
+        {booksState.bookmarkedBook.length > 0 && (
+          <>
+            <BookmarkTitleWrapper>
+              <Typography variant="hero" weight="bold">
+                Bookmarks
+              </Typography>
+              <Link to="/bookmarks">
+                <Typography css={{ color: "$primary" }} weight="semibold">
+                  See All
+                </Typography>
+              </Link>
+            </BookmarkTitleWrapper>
+            <BookmarkList
+              bookmark={booksState.bookmarkedBook}
+              onPickBookMark={booksState.setBookDetail}
             />
-          </a>
-        ))}
-      </ListWrapper>
-      <Pagination
-        current={paramsState.page}
-        prevButtonProps={{
-          disabled: paramsState.page <= 1,
-          onClick: onDecrementPage,
-        }}
-        nextButtonProps={{
-          disabled: books.length < PAGE_LIMIT,
-          onClick: onIncrementPage,
-        }}
-      />
-    </PageWrapper>
+          </>
+        )}
+        <Typography variant="hero" weight="bold">
+          Explore
+        </Typography>
+        <ListWrapper
+          css={{
+            equallyGridColumn: 2,
+            "@bp1": { equallyGridColumn: categories.length },
+          }}
+        >
+          {categories.map(({ name, id }) => (
+            <CategoryCard
+              name={name}
+              key={id}
+              onClick={() => onNavigateParams(id)}
+            />
+          ))}
+        </ListWrapper>
+        <SearchInput
+          disabled={isFetching || isFetchingCategories}
+          onChangeEnter={setSearchInput}
+          placeholder="Filter Books by Title and Author Name"
+          wrapperCss={{
+            width: "auto",
+            "@bp1": {
+              width: "50%",
+            },
+          }}
+        />
+        <BookList books={books} onPickItem={booksState.setBookDetail} />
+        <Pagination
+          current={paramsState.page}
+          prevButtonProps={{
+            disabled: paramsState.page <= 1,
+            onClick: onDecrementPage,
+          }}
+          nextButtonProps={{
+            disabled: books.length < PAGE_LIMIT,
+            onClick: onIncrementPage,
+          }}
+        />
+      </PageWrapper>
+    </Header>
   );
 };
 

@@ -24,11 +24,6 @@ const InputWrapper = styled("div", {
         cursor: "not-allowed",
       },
     },
-    block: {
-      true: {
-        width: "100%",
-      },
-    },
   },
 });
 
@@ -45,6 +40,7 @@ const Input = styled("input", {
 const SearchInput = ({
   wrapperCss,
   onChangeEnter,
+  block,
   disabled,
   ...rest
 }: InputProps) => {

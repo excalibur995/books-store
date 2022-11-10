@@ -3,7 +3,7 @@ import { Book } from "domain/books/entities/books.entities";
 import { styled } from "stitches.config";
 
 type BookProps = Book & {
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const Wrapper = styled("div", {
