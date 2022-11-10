@@ -1,3 +1,4 @@
+import ToastifyConfig from "drivers/toastify/ToastifyConfig";
 import RootLayout from "layout/RootLayout";
 import ReactQueryConfig from "./drivers/react-query/ReactQueryConfig";
 import { Router } from "./drivers/router/router";
@@ -5,9 +6,11 @@ import { Router } from "./drivers/router/router";
 function App() {
   return (
     <ReactQueryConfig>
-      <RootLayout>
-        <Router />
-      </RootLayout>
+      <ToastifyConfig>
+        <RootLayout>
+          <Router />
+        </RootLayout>
+      </ToastifyConfig>
     </ReactQueryConfig>
   );
 }

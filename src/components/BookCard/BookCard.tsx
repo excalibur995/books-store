@@ -2,6 +2,10 @@ import Typography from "components/Typography";
 import { Book } from "domain/books/entities/books.entities";
 import { styled } from "stitches.config";
 
+type BookProps = Book & {
+  onClick: () => void;
+};
+
 const Wrapper = styled("div", {
   flexing: "column",
   textAlign: "left",
@@ -10,8 +14,10 @@ const Wrapper = styled("div", {
     equallyGridColumn: 2,
   },
 });
+
 const Figure = styled("figure", {
   margin: 0,
+  maxWidth: 130,
 });
 const Image = styled("img", {
   size: "100%",
@@ -30,14 +36,16 @@ const AuthorSection = styled("span", {
   },
 });
 
-const BookCard = ({ title, ...rest }: Book) => {
+const BookCard = ({ title, ...rest }: BookProps) => {
   return (
-    <Wrapper>
+    <Wrapper onClick={rest.onClick}>
       <Figure>
         <Image src={rest.cover_url} alt={title} />
       </Figure>
       <TitleSection>
-        <Typography weight="semibold">{title}</Typography>
+        <Typography css={{ color: "$primary" }} weight="semibold">
+          {title}
+        </Typography>
         <AuthorSection>
           {rest.authors.map((author, index) => (
             <Typography

@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import RequestServices from "drivers/http-request";
 import { Book } from "../entities/books.entities";
-import { BooksParams } from "../states/books.states";
+import { BooksParams } from "../entities/books.entities";
 
 export async function getBookList(params: BooksParams = { size: 10, page: 0 }) {
   try {

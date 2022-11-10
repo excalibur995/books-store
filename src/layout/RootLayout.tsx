@@ -7,10 +7,9 @@ const Wrapper = styled("div", {
   flexing: "column",
   justifyContent: "flex-start",
   minHeight: "100vh",
-  padding: "$64 0",
+  padding: "$54 0",
   "@bp1": {
     maxWidth: "90rem",
-
     margin: "0 auto",
   },
 });
