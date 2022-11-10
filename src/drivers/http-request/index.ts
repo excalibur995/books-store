@@ -13,7 +13,10 @@ export default class RequestServices {
 
     this.reqClient = axios.create({
       headers: requestHeader,
-      baseURL: "https://asia-southeast2-sejutacita-app.cloudfunctions.net/",
+      // proxy: {
+      //   host: "https://asia-southeast2-sejutacita-app.cloudfunctions.net/",
+      //   port: 3000,
+      // },
     });
 
     this.reqClient.interceptors.response.use(
