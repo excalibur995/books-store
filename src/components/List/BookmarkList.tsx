@@ -1,11 +1,16 @@
 import { CSS } from "@stitches/react";
 import BookCard from "components/BookCard/BookCard";
 import { Book } from "domain/books/entities/books.entities";
+import { useBookStates } from "domain/books/states/books.states";
 import { styled } from "stitches.config";
 
 const ListWrapper = styled("section", {
   my: "$24",
   gap: "$16",
+});
+
+const Href = styled("a", {
+  width: 130,
 });
 
 type BookmarkListProps = {
@@ -21,6 +26,8 @@ const BookmarkList = ({
   onPickBookMark,
   css,
 }: BookmarkListProps) => {
+  const booksState = useBookStates((state) => state);
+
   return (
     <ListWrapper
       css={{
@@ -34,9 +41,14 @@ const BookmarkList = ({
       }}
     >
       {bookmark.slice(0, sliced).map((item) => (
-        <a href="/detail" key={item.id}>
-          <BookCard onClick={() => onPickBookMark?.(item)} {...item} />
-        </a>
+        <Href href="/detail" key={item.id}>
+          <BookCard
+            onClick={() => onPickBookMark?.(item)}
+            isBookMarked={booksState.isBookInBookmark(item.id)}
+            onBookMarkBook={booksState.setBookmark}
+            {...item}
+          />
+        </Href>
       ))}
     </ListWrapper>
   );

@@ -15,7 +15,7 @@ const BookMarkStar = ({ isBookMarked, ...rest }: BookMarkStarProps) => {
   return isBookMarked ? (
     <BookMarkStarStyled {...rest} />
   ) : (
-    <AiOutlineStar {...rest} />
+    <AiOutlineStar fill="#000" {...rest} />
   );
 };
 

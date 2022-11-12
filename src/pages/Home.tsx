@@ -45,7 +45,6 @@ const Home = () => {
   const paramsState = useBookParamState((state) => state);
   const categoryState = useCategoryStates((state) => state);
   const booksState = useBookStates((state) => state);
-
   useEffect(() => {
     if (!!searchParams.get("page")) {
       return paramsState.setPage(Number(searchParams.get("page")));

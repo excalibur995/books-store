@@ -35,7 +35,16 @@ const BookmarkListPage = () => {
           wrapperCss={{ width: "inherit" }}
         />
         <BookmarkList
-          css={{ equallyGridColumn: 2 }}
+          css={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+            my: "$24",
+            gap: "$16",
+            a: {
+              width: "auto",
+            },
+            figure: { width: "100%" },
+          }}
           bookmark={memoBookMarked}
           sliced={Number.POSITIVE_INFINITY}
           onPickBookMark={bookmarkState.setBookDetail}
