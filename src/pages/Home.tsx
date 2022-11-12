@@ -26,6 +26,7 @@ const PageWrapper = styled("div", {
 });
 const ListWrapper = styled("section", {
   display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
   my: "$24",
   gap: "$16",
 });
@@ -44,7 +45,6 @@ const Home = () => {
   const paramsState = useBookParamState((state) => state);
   const categoryState = useCategoryStates((state) => state);
   const booksState = useBookStates((state) => state);
-
   useEffect(() => {
     if (!!searchParams.get("page")) {
       return paramsState.setPage(Number(searchParams.get("page")));
@@ -121,11 +121,13 @@ const Home = () => {
               <Typography variant="hero" weight="bold">
                 Bookmarks
               </Typography>
-              <Link to="/bookmarks">
-                <Typography css={{ color: "$primary" }} weight="semibold">
-                  See All
-                </Typography>
-              </Link>
+              {booksState.bookmarkedBook.length > 4 && (
+                <Link to="/bookmarks">
+                  <Typography css={{ color: "$primary" }} weight="semibold">
+                    See All
+                  </Typography>
+                </Link>
+              )}
             </BookmarkTitleWrapper>
             <BookmarkList
               bookmark={booksState.bookmarkedBook}
@@ -136,12 +138,7 @@ const Home = () => {
         <Typography variant="hero" weight="bold">
           Explore
         </Typography>
-        <ListWrapper
-          css={{
-            equallyGridColumn: 2,
-            "@bp1": { equallyGridColumn: categories.length },
-          }}
-        >
+        <ListWrapper>
           {categories.map(({ name, id }) => (
             <CategoryCard
               name={name}
