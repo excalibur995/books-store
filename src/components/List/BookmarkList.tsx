@@ -4,7 +4,6 @@ import { Book } from "domain/books/entities/books.entities";
 import { styled } from "stitches.config";
 
 const ListWrapper = styled("section", {
-  display: "grid",
   my: "$24",
   gap: "$16",
 });
@@ -27,11 +26,10 @@ const BookmarkList = ({
       css={{
         flexing: "row",
         overflow: "scroll hidden",
-        whiteSpace: "nowrap",
         msOverflowStyle: "none",
         scrollbarWidth: "none",
         "&::-webkit-scrollbar": { display: "none" },
-        figure: { minWidth: 200, "@bp1": { minWidth: "unset" } },
+        figure: { width: 130, "@bp1": { minWidth: "unset" } },
         ...css,
       }}
     >

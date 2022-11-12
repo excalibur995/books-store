@@ -10,14 +10,11 @@ const Wrapper = styled("div", {
   flexing: "column",
   textAlign: "left",
   gap: "$4",
-  "@bp1": {
-    equallyGridColumn: 2,
-  },
 });
 
 const Figure = styled("figure", {
   margin: 0,
-  maxWidth: 130,
+  maxWidth: 250,
 });
 const Image = styled("img", {
   size: "100%",

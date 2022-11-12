@@ -77,7 +77,7 @@ const BookDetailCard = ({
       </Figure>
       <InformationSection>
         <NumberSectionItem css={{ justifyContent: "space-between" }}>
-          <Typography variant="hero" weight="semibold">
+          <Typography css={{ width: "90%" }} variant="hero" weight="semibold">
             {book?.title}
           </Typography>
           <BookMarkStar

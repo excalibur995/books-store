@@ -4,6 +4,7 @@ import { styled } from "stitches.config";
 
 const ListWrapper = styled("section", {
   display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
   my: "$24",
   gap: "$16",
 });
@@ -15,13 +16,7 @@ type BookListProps = {
 
 const BookList = ({ books, onPickItem }: BookListProps) => {
   return (
-    <ListWrapper
-      css={{
-        equallyGridColumn: 2,
-        "@bp1": { equallyGridColumn: 3 },
-        "@bp2": { equallyGridColumn: 4 },
-      }}
-    >
+    <ListWrapper>
       {books.map((item) => (
         <a href="/detail" key={item.id}>
           <BookCard onClick={() => onPickItem?.(item)} {...item} />
